@@ -1,0 +1,32 @@
+#!/usr/bin/env ruby
+
+ip = `ip addr | grep eth0 | grep inet | awk '{print $2}' | cut -f1 -d"/"`
+
+pid_file = "/var/run/serf.pid"
+
+if File.exists? pid_file
+  pid = File.read pid_file
+  Process.kill "INT", pid rescue nil
+end
+
+pid = fork do
+  File.open(pid_file, "w+") { |f| f.write Process.pid.to_s }
+  exec "serf agent -role=app -bind=#{ip} -event-handler='user:deploy=/srv/app/deploy.rb'"
+end
+
+sleep 2
+
+retries = 5
+
+while retries > 0
+  serf_join_err = `serf join #{ENV["SERF_HOST"]}`
+  break if $?.exitstatus == 0
+  retries -= 1
+end
+
+if retries == 0
+  abort "Could not 'serf join' because #{serf_join_err}"
+  exit $?.exitstatus
+else
+  Process.wait pid
+end
