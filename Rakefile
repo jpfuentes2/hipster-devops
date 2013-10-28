@@ -5,8 +5,7 @@ IMAGES = Dir["*/Dockerfile"].map { |f| f.split("/").first }
 
 task :build do
   IMAGES.each do |img|
-    next unless img == "app"
-    sys "docker build -t #{img} #{img}/"
+    sys "docker build -t #{img} docker/#{img}/"
   end
 end
 
