@@ -1,0 +1,7 @@
+{
+  "role": "haproxy",
+  "start_join": [],
+  "event_handlers": [
+    "/etc/serf/handler"
+  ]
+}

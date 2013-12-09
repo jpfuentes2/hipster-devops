@@ -1,11 +1,11 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 set -e
 
-mkdir ./log
-
-echo "Caught deploy" >> log/deploy.log
+mkdir -p ./log
 
 rev=$(git rev-parse HEAD)
 
-serf event deploy-web:$rev >> log/deploy.log 2>&1
+echo "Caught deploy at $rev" >> log/deploy.log
+
+serf event deploy:web $rev >> log/deploy.log 2>&1

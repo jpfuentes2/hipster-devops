@@ -14,6 +14,7 @@ RUN apt-get install -y golang
 
 # Install Serf
 RUN apt-get install -y unzip
-RUN wget https://dl.bintray.com/mitchellh/serf/0.1.1_linux_amd64.zip -O serf.zip
+RUN wget https://dl.bintray.com/mitchellh/serf/0.2.1_linux_amd64.zip -O serf.zip
 RUN unzip serf.zip
 RUN cp serf /usr/local/bin
+RUN mkdir /etc/serf

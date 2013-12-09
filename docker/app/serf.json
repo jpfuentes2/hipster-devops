@@ -1,0 +1,7 @@
+{
+  "role": "web",
+  "start_join": [],
+  "event_handlers": [
+    "user:deploy:web=/srv/app/deploy.rb"
+  ]
+}

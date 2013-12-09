@@ -1,0 +1,8 @@
+{
+  "role": "haproxy",
+  "start_join": [],
+  "event_handlers": [
+    "member-join=/etc/serf/join.sh",
+    "member-leave,member-failed=/etc/serf/leave.sh"
+  ]
+}

@@ -1,8 +1,6 @@
 FROM base
 MAINTAINER Jacques Fuentes
 
-RUN echo "deb http://archive.ubuntu.com/ubuntu quantal main universe multiverse" > /etc/apt/sources.list
-RUN apt-get update
 RUN apt-get install -y openssh-server
 
 RUN sed -e 's/#RSAAuthentication.*$/RSAAuthentication yes/'
@@ -22,9 +20,9 @@ RUN cd /srv/deployer && git config receive.denyCurrentBranch ignore
 RUN cd /srv/deployer && git config --bool receive.denyNonFastForwards false
 ADD post-receive.sh /srv/deployer/hooks/post-receive
 
-ADD run_serf.sh /usr/bin/run_serf
+ADD serf.json /etc/serf/config.json
 ADD supervisord.conf /etc/supervisord/conf.d/supervisord.conf
 
-EXPOSE 22
+EXPOSE 22 7946
 
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord/conf.d/supervisord.conf"]
